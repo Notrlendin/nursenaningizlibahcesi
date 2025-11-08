@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>nursenaningizlibahcesi</title>
+  <meta name="description" content="Nur Sena Çatak için 365 günlük dijital aşk kavanozu – her gün bir not." />
+  <style>
+    :root {
+      --bg1:#060a17; /* gece tonu */
+      --bg2:#0d1330; /* daha derin gece */
+      --accent:#ff6b8a;
+      --accent2:#ffd1dc;
+      --ink:#fff7fb;
+      --glass: rgba(255, 255, 255, 0.08);
+      --blur: blur(10px);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: "Inter",system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; color:var(--ink);
+      background:
+        radial-gradient(1px 1px at 10% 20%, #fff8, transparent 60%),
+        radial-gradient(1.4px 1.4px at 30% 80%, #fff6, transparent 60%),
+        radial-gradient(1.2px 1.2px at 60% 30%, #fff7, transparent 60%),
+        radial-gradient(1.6px 1.6px at 80% 60%, #fff5, transparent 60%),
+        radial-gradient(1.1px 1.1px at 50% 50%, #fff4, transparent 60%),
+        linear-gradient(160deg, var(--bg1), var(--bg2));
+      overflow-x:hidden;
+    }
+    /* Kalp partikül animasyonu */
+    .hearts{position:fixed; inset:0; pointer-events:none; z-index:0;}
+    .heart{position:absolute; font-size:16px; opacity:.65; animation: floatUp 9s linear infinite; filter: drop-shadow(0 2px 6px rgba(255,0,81,.35));}
+    @keyframes floatUp{0%{transform:translateY(0) scale(.8)} 100%{transform:translateY(-120vh) scale(1.2); opacity:0}}
+
+    .container{position:relative; z-index:1; display:grid; min-height:100vh; place-items:center; padding:24px}
+    .card{
+      width: min(720px, 92vw);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      border: 1px solid rgba(255,255,255,.12);
+      backdrop-filter: var(--blur);
+      border-radius: 24px; padding: 28px; box-shadow: 0 20px 60px rgba(0,0,0,.35);
+    }
+    h1{margin:0 0 8px; font-weight:800; letter-spacing:.5px}
+    .subtitle{opacity:.9; line-height:1.35}
+
+    .gate{display:grid; gap:16px; text-align:center}
+    .gate .bigline{font-size:clamp(22px, 4.5vw, 30px); line-height:1.25; font-weight:700}
+    .gate .small{opacity:.9}
+
+    .row{display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin-top:10px}
+    .btn{
+      appearance:none; border:0; background:conic-gradient(from 0deg, #ff7aa2, #ff3d6e, #ff7aa2);
+      color:white; padding:14px 18px; border-radius:14px; font-weight:700; cursor:pointer; transition:transform .08s ease, filter .2s ease;
+      box-shadow: 0 10px 30px rgba(255, 61, 110, .35);
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn:active{transform:translateY(1px)}
+    .btn.ghost{background:transparent; border:1px solid rgba(255,255,255,.25)}
+
+    .panel {display:none}
+    .active{display:block}
+
+    .noteBox{
+      margin-top:16px; background: var(--glass); border:1px solid rgba(255,255,255,.12);
+      border-radius:16px; padding:18px; font-size:clamp(18px, 3.6vw, 22px); line-height:1.45;
+    }
+    .meta{display:flex; justify-content:space-between; align-items:center; font-size:14px; opacity:.85; margin-top:8px}
+    .foot{margin-top:16px; font-size:12px; opacity:.8}
+
+    .toggleWrap{display:flex; gap:10px; flex-wrap:wrap}
+    .switch{
+      position:relative; display:inline-flex; align-items:center; gap:10px; padding:8px 10px; border-radius:14px;
+      background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
+    }
+    .switch input{accent-color:#ff6b8a}
+
+    /* Mini Uygulama stili */
+    .jarWrap{display:grid; place-items:center; margin-top:10px}
+    .jar{
+      width:min(360px, 80vw); aspect-ratio: 3/4; position:relative; border-radius:24px 24px 40px 40px;
+      background: radial-gradient(120% 120% at 50% -10%, rgba(255,255,255,.35), rgba(255,255,255,.08) 45%, rgba(0,0,0,.1) 70%),
+                  linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.04));
+      border:1px solid rgba(255,255,255,.25);
+      backdrop-filter: var(--blur);
+      box-shadow: inset 0 0 80px rgba(255,255,255,.08), 0 20px 50px rgba(0,0,0,.35);
+    }
+    .lid{position:absolute; top:-28px; left:50%; transform:translateX(-50%); width:72%; height:18px; border-radius:8px;
+      background:linear-gradient(180deg, #ffe1ea, #ff9bb4); border:1px solid rgba(255,255,255,.45); box-shadow:0 10px 20px rgba(0,0,0,.25)}
+    .ribbon{position:absolute; top:-48px; left:50%; transform:translateX(-50%);
+      width: 86%; height: 14px; background: linear-gradient(90deg, #ff4477, #ff7aa2);
+      border-radius: 14px; filter: drop-shadow(0 4px 12px rgba(255,68,119,.55));
+    }
+    .paper{position:absolute; bottom:20px; left:50%; transform:translateX(-50%) rotate(-1.5deg);
+      width:85%; min-height:32%; border-radius:12px; padding:14px; background: #fff8fb; color:#2b0f18;
+      box-shadow: 0 16px 40px rgba(0,0,0,.25);
+      font-size:clamp(16px, 3.2vw, 20px); line-height:1.45;
+    }
+    .paper::after{content:"\2665"; position:absolute; top:-10px; right:18px; font-size:20px; color:#ff3d6e; opacity:.75}
+    .tapHint{margin-top:10px; font-size:14px; opacity:.9}
+
+    .footer{margin-top:18px; text-align:center; opacity:.85; font-size:13px}
+    .sig{opacity:.9}
+
+    .audioCtrl{display:flex; align-items:center; gap:8px}
+  </style>
+</head>
+<body>
+  <!-- Kalp partikülleri -->
+  <div class="hearts" id="hearts"></div>
+
+  <div class="container">
+    <div class="card">
+      <div id="gate" class="gate active">
+        <h1>nursenaningizlibahcesi</h1>
+        <p class="subtitle">Nur Sena Çatak için 365 günlük dijital aşk kavanozu</p>
+        <p class="bigline">Burası Senin Gizli Bahçen Hatunum,<br/>Her Gün Bir Not Oku.<br/>Bana Yorumunu Anlat.</p>
+        <div class="row" style="justify-content:center">
+          <button class="btn" id="enterBtn">Gizli Bahçeye Gir</button>
+          <button class="btn ghost" id="howBtn">Nasıl Çalışır?</button>
+        </div>
+        <div id="how" class="noteBox" style="display:none">Her gün en fazla <b>1 not</b> açılır. Notlar <b>rastgele</b> seçilir ve karşılıklı hatıramız olarak telefona kaydedilir. Müzik istersen sağ üstten açabilirsin. ✨</div>
+        <div class="footer sig">💖 Muhammed'inden 💖</div>
+      </div>
+
+      <!-- Ana panel (Web sürümü) -->
+      <div id="panelWeb" class="panel">
+        <div class="row" style="justify-content:space-between">
+          <div class="toggleWrap">
+            <label class="switch"><input type="checkbox" id="modeSwitch"/> <span>Mini Uygulama Modu</span></label>
+            <label class="switch"><input type="checkbox" id="dailyLimit" checked/> <span>Günde 1 not</span></label>
+          </div>
+          <div class="audioCtrl">
+            <button class="btn ghost" id="audioToggle">Müziği Aç</button>
+          </div>
+        </div>
+
+        <div class="noteBox" id="noteBox">Hazır mısın? Aşağıdaki düğmeye dokun; Gizli Bahçen senin için bugün bir not açsın. 🌹</div>
+        <div class="row">
+          <button class="btn" id="drawBtn">Bugünün Notunu Aç</button>
+          <button class="btn ghost" id="saveBtn">Notu Kaydet</button>
+        </div>
+        <div class="meta"><span id="metaInfo">—</span><a id="resetToday" href="#" style="color:var(--accent2)">Bugün yeniden çek</a></div>
+        <div class="foot">*Notlar telefonunda saklanır. Geçmişi temizlemek istersen tarayıcı ayarlarından verileri silebilirsin.</div>
+        <div class="footer sig">💖 Muhammed'inden 💖</div>
+      </div>
+
+      <!-- Mini Uygulama paneli -->
+      <div id="panelMini" class="panel">
+        <div class="row" style="justify-content:space-between">
+          <div class="toggleWrap">
+            <label class="switch"><input type="checkbox" id="modeSwitch2" checked/> <span>Mini Uygulama Modu</span></label>
+            <label class="switch"><input type="checkbox" id="dailyLimit2" checked/> <span>Günde 1 not</span></label>
+          </div>
+          <div class="audioCtrl">
+            <button class="btn ghost" id="audioToggle2">Müziği Aç</button>
+          </div>
+        </div>
+        <div class="jarWrap">
+          <div class="ribbon"></div>
+          <div class="lid"></div>
+          <div class="jar" id="jar">
+            <div class="paper" id="paper">Kavanoza dokun ve bugünün notu kâğıda düşsün ✨</div>
+          </div>
+        </div>
+        <div class="tapHint">Bir not açıldıktan sonra aynı gün tekrar çekemezsin (aşağıdan kapatabilirsin).</div>
+        <div class="row" style="justify-content:center; margin-top:12px">
+          <button class="btn ghost" id="saveBtn2">Notu Kaydet</button>
+          <a id="switchToWeb" class="btn" href="#">Web Görünümü</a>
+        </div>
+        <div class="meta"><span id="metaInfo2">—</span><a id="resetToday2" href="#" style="color:var(--accent2)">Bugün yeniden çek</a></div>
+        <div class="footer sig">💖 Muhammed'inden 💖</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Müzik -->
+  <audio id="bgm" preload="auto" loop>
+    <source src="Rafet El Roman - Seni Seviyorum (Official Video).mp3" type="audio/mpeg"/>
+  </audio>
+
+  <script>
+    // ********** 365 NOT **********
+    const notes = [
+      // 1–11
+      "Seni seviyorum Nur Sena, çünkü kalbin dünyadaki en güvenli yerim.",
+      "Her bakışında içimde huzur büyüyor. Sen varsan dünya güzel.",
+      "Gülüşün, bir insanın ruhuna dokunmayı nasıl başardığına dair bir mucize.",
+      "Seninle konuşmak bile terapi gibi. Sadece varlığın bile iyi geliyor.",
+      "Zor günlerimde bile yanımda duran, beni anlayan ve sabır gösteren sensin.",
+      "Sana baktığımda ‘işte hayatımda olmasını istediğim kişi’ diyorum.",
+      "Seninle hayal kurmak, gerçeklerin bile hayallerden güzel olabileceğini hatırlatıyor.",
+      "Bazen beni sözcüksüz anlıyorsun. İşte o anlarda sevginin sesi var.",
+      "Küçük şeylerde bile mutluluğu görebiliyorsun. Seninle yaşam basit ve değerli.",
+      "Sadece sevgilim değil; en iyi arkadaşım, sırdaşım ve huzur noktamsın.",
+      "Ve son neden… Çünkü sensin. Ne olduğun, nasıl hissettirdiğin… İyi ki varsın Nur Sena Çatak.",
+      // 12–111 (100 cümle - gösterişli romantik)
+      "Sen geldiğinden beri kalbim ilk defa evini buldu.",
+      "Gözlerinde kaybolmak, bulunmak gibi.",
+      "Sesin, içimdeki en sessiz duayı bile duyuruyor.",
+      "Bir gülüşünle bütün karanlık aydınlanıyor.",
+      "Adını her duyduğumda kalbim hafifçe titriyor.",
+      "Seninle olmak, zamanı durdurmanın en güzel hâli.",
+      "Gözlerin geceyi bile kıskandırıyor.",
+      "Sadece yanımda değil, içimde de varsın.",
+      "Sen, sıradan bir günü mucizeye çevirebilen tek detaysın.",
+      "Aşk, senin adınla anlam kazandı.",
+      "Ellerini tuttuğumda dünya susuyor.",
+      "Kalbim artık sana göre atıyor.",
+      "Bir bakışın bile kalbime şiir yazdırıyor.",
+      "Seninle nefes almak, dünyanın en güzel alışkanlığı.",
+      "Gülüşün, cennetten bir ödünç gibi.",
+      "Seni sevmek değil, senle var olmak mesele.",
+      "Her sabahın sebebi sensin.",
+      "Kalbim seni görünce çocuk gibi heyecanlanıyor.",
+      "Seninle her an, ‘iyi ki’ demenin kanıtı.",
+      "Sensiz geçen saniye bile eksik bir ömür gibi.",
+      "Dudaklarından dökülen her kelime, kalbime kazınıyor.",
+      "Seninle yürürken zaman bile kıskanıyor bizi.",
+      "Gözlerin, dünyanın en güvenli limanı.",
+      "Adını kalbime değil, ruhuma yazdım.",
+      "Seni düşünmek bile kalbimi güzelleştiriyor.",
+      "Aşk seninle başlıyor, sensiz bitmiyor.",
+      "Her gülüşün bir mucize, her dokunuşun dua gibi.",
+      "Sen, kalbimin en narin yeri.",
+      "Seni sevmek, sonsuzluğun provasını yapmak gibi.",
+      "Bir ‘merhaban’ bile günüme anlam katıyor.",
+      "Seninle konuşmak, sessizliği bile güzelleştiriyor.",
+      "Kalbimin ritmini sen belirliyorsun.",
+      "Gözlerine baktığımda başka bir dünya görüyorum.",
+      "Sen yanımdayken bütün korkularım kayboluyor.",
+      "Ruhum, senin yanında huzuru buluyor.",
+      "Senin adın geçtiğinde içim ısınıyor.",
+      "Sen, hayatımın en güzel hikâyesisin.",
+      "Seninle aynı dünyada olmak bile ayrı bir mucize.",
+      "Gözlerinde kendimi kaybedip, seni buluyorum.",
+      "Kalbim seni görünce tebessüm ediyor.",
+      "Seni sevmek, nefes almak kadar doğal.",
+      "Sesin, en güzel melodim.",
+      "Seninle olmak, bir ömürlük huzurun kısa özeti.",
+      "Gözlerin, yıldızlardan bile daha parlak.",
+      "Kalbim seninle tamamlanıyor.",
+      "Her gün, seni biraz daha çok seviyorum.",
+      "Sen, hayatımın en anlamlı tesadüfün.",
+      "Sadece sen, her şeyin anlamısın.",
+      "Senin varlığın, hayatıma şiir kattı.",
+      "Kalbimdeki en güzel dua sensin.",
+      "Seninle geçen her saniye, bir ömür değerinde.",
+      "Gözlerin, sessiz bir huzurun hikâyesi.",
+      "Senin sevginle kalbim yeniden doğdu.",
+      "Senin gülüşünle başlasın her sabahım.",
+      "Kalbim seninle konuşmayı hiç bırakmak istemiyor.",
+      "Seninle olmak, dünyanın en güzel tesadüfü.",
+      "Her şey geçer, sen kal.",
+      "Senin bir bakışın bin şiire bedel.",
+      "Ruhum, senin yanında dinleniyor.",
+      "Gülüşün kalbime işlenmiş bir sanat eseri gibi.",
+      "Seninle her şey anlam buluyor.",
+      "Adını her düşündüğümde içim ışıyor.",
+      "Sen, kalbimin sevdiği en güzel kelimesin.",
+      "Her şeyin cevabı sensin.",
+      "Seninle konuşmak, zamanın durduğu an.",
+      "Kalbimin merkezine adını yazdım.",
+      "Senin sevginde kaybolmak istiyorum.",
+      "Her gün seni daha çok sevmenin yollarını buluyorum.",
+      "Seninle olmak, dua etmek gibi huzurlu.",
+      "Gözlerinde bir ömür kalabilirim.",
+      "Kalbimin en sessiz duası sensin.",
+      "Seni düşündüğümde bile gülümserim.",
+      "Sen, hayatımın en güzel parantezisin.",
+      "Seninle geçen her an, özel bir hikâye.",
+      "Kalbim seninle şiir yazmayı öğrendi.",
+      "Seninle hayat bir masal gibi.",
+      "Gözlerin, kalbime ışık tutuyor.",
+      "Aşkın, kalbime huzur ekti.",
+      "Seninle tanışmak kaderdi, seni sevmek seçim değil zorunluluktu.",
+      "Senin gülüşün, ruhuma armağan.",
+      "Sadece yanında olduğumda değil, seni düşündüğümde bile huzurluyum.",
+      "Her gülüşün bir tebessüm sebebim.",
+      "Senin sevginde kaybolmak bile güzel.",
+      "Kalbim senin ritminde atıyor.",
+      "Seninle konuşmadan geçen gün, eksik bir gün.",
+      "Gözlerinde kaybolmak, bulunmak gibi.",
+      "Sen, kalbimin en sıcak mevsimi.",
+      "Her adımım seni bulmak için atılmış.",
+      "Senin adın geçince kalbim uslanmaz oluyor.",
+      "Gülüşün, en karanlık günümü bile aydınlatır.",
+      "Sensizliğin tarifi yok, çünkü sen hep varsın.",
+      "Aşk, senin gözlerinde vücut buldu.",
+      "Seninle geçen zaman, en güzel hediye.",
+      "Kalbim seni görünce huzur buluyor.",
+      "Senin sevgin, ruhuma sığınak.",
+      "Gözlerin bana ‘ev’ gibi.",
+      "Sen, benim sessiz mucizemsin.",
+      "Kalbimde senin adın yankılanıyor.",
+      "Her şey sensin, gerisi teferruat.",
+      "İyi ki doğdun, iyi ki varsın, iyi ki sen Nur Sena Çatak’sın.",
+      // 112–131 (20 cümle - tutkulu/duygusal)
+      "Seni ilk gördüğüm an, kalbim nerede duracağını şaşırdı.",
+      "Her sabah aklıma düşen ilk şey sensin ve bu bana yaşama sebebi veriyor.",
+      "Gözlerinin içine baktığımda dünyadaki her şey sessizleşiyor.",
+      "Adını kalbimin ritmine kazıdım; artık her atışımda sen varsın.",
+      "Senin gülüşün, en karanlık günümde bile ışık gibi doğuyor.",
+      "Seni düşünmek tüm fırtınaları susturuyor içimde.",
+      "Gözlerinle bir kez buluştuğumda, zaman nefes almayı unuttu.",
+      "Ellerinin sıcaklığı, tenimde değil kalbimde iz bırakıyor.",
+      "Sesini her duyduğumda içimde bir yer tatlı tatlı yanıyor.",
+      "Varlığın bile kalbimi hızlandırmaya yetiyor.",
+      "Yakınında olduğumda nefes almak bile lüks gibi geliyor.",
+      "Seni düşünürken dokunuşunu hissediyorum sanki rüzgâr adını fısıldıyor.",
+      "Göz göze geldiğimiz an, dünyanın geri kalanı kayboluyor.",
+      "Seninle geçirdiğim her saniye, hayat defterimin en güzel satırı.",
+      "Seni sevmek, huzuru bir bedende bulmak gibi.",
+      "Kalbim seni tanımadan önce sadece atıyordu; şimdi gerçekten yaşıyor.",
+      "Sadece ismini duymak bile içimi ısıtıyor.",
+      "Sende bulduğum şey, tarif edilemeyen bir tamamlanmışlık.",
+      "Eğer yeniden doğsam, yine seni bulmak isterdim.",
+      // 132–231 (100 cümle)
+      "Seninle geçen bir gün, sensiz geçen bin güne bedel.",
+      "Kalbim her sabah senin adınla uyanıyor.",
+      "Gözlerinde huzur, sesinde cennet var.",
+      "Ne kadar uzak olursak olalım, kalbim hep sana döner.",
+      "Seni düşünmeden geçen bir anım bile yok.",
+      "Hayat ikiye ayrıldı: seni tanımadan önce ve seni tanıdıktan sonra.",
+      "Gülüşün en güzel alışkanlığım oldu.",
+      "Sen yanımdayken, dünya sessizleşiyor.",
+      "Adını duyunca kalbim ritmini değiştiriyor.",
+      "Gözlerin, karanlık gecelerimin yıldızı.",
+      "Ellerini tutmadan geçen her an yarım kalıyor.",
+      "Seninle aynı gökyüzüne bakmak bile yetiyor bazen.",
+      "Her şey geçer ama senin bana hissettirdiklerin kalır.",
+      "Bir bakışınla içimdeki fırtınaları susturuyorsun.",
+      "Kalbim seninle sükûnet buldu.",
+      "Senin gülüşün, bana yeniden inanmayı öğretti.",
+      "Seninle geçirdiğim her saniye bir mucize gibi.",
+      "Gözlerindeki parıltı, kalbimin en güzel ışığı.",
+      "Senin adını her düşündüğümde içim ısınıyor.",
+      "Hayatımın anlamı sensin.",
+      "Her şey biter ama sana olan sevgim asla bitmez.",
+      "Gözlerinde kaybolmak istiyorum, sonsuza dek.",
+      "Seninle geçen anlar kalbime kazındı.",
+      "Sadece bir ‘merhaba’n bile günümü güzelleştiriyor.",
+      "Seninle yaşlanmak, en güzel dileğim.",
+      "Aşkın, kalbimin en tatlı sızısı.",
+      "Ne olursa olsun, kalbim hep sana ait olacak.",
+      "Sesin, içimdeki en huzurlu müzik.",
+      "Seninle geçen zaman, zamanı unutturuyor bana.",
+      "Gözlerinin içindeki ışık, beni her gün yeniden büyülüyor.",
+      "Kalbimde senin kadar derin bir iz bırakan olmadı.",
+      "Seni düşünürken bile gülümsüyorum.",
+      "Adın bile huzur veriyor.",
+      "Sensizliğin rengi gri, seninle hayat gökkuşağı gibi.",
+      "Her şeyinle, eksiksiz bir güzelliksin.",
+      "Seninle tanışmak, hayatta aldığım en güzel karardı.",
+      "Kalbimde sadece senin için yer var.",
+      "Gözlerin, beni kendine esir etti.",
+      "Senin varlığın, hayatıma anlam kattı.",
+      "Gülüşünle başlar, adınla biter dualarım.",
+      "Her sabah seninle başlasam günüm tamam olurdu.",
+      "Seninle her şey daha kolay, daha güzel.",
+      "Kalbim seni görünce çocuk gibi atıyor.",
+      "Sesini duymadığım gün, eksik hissediyorum.",
+      "Seninle konuşmak bile içimi ısıtıyor.",
+      "Seni özlemek bile güzel, çünkü sonunda sen varsın.",
+      "Senin gözlerin, bana huzurun tanımını öğretti.",
+      "Senin adın, kalbimin en güzel melodisi.",
+      "Gözlerinle buluştuğumda zaman donuyor.",
+      "Sende bulduğum şeyi başka hiçbir yerde bulamadım.",
+      "Her şeyinle eşsizsin.",
+      "Senin varlığın bile yetiyor mutlu olmama.",
+      "Hayat, seni sevdikçe güzelleşti.",
+      "Gülüşün kalbime kazınmış bir mucize.",
+      "Her ‘seni seviyorum’ dediğimde, içim titriyor.",
+      "Seninle konuşmak bile bir huzur töreni gibi.",
+      "Gözlerinde kaybolmak istiyorum.",
+      "Kalbim senin sesini ezberledi.",
+      "Her sabah seninle uyanmak isterdim.",
+      "Gözlerinle dünyaya baktığımda her şey güzelleşiyor.",
+      "Seninle geçen bir dakika, bir ömre bedel.",
+      "Kalbimdeki en güzel dua sensin.",
+      "Seninle tanışmak kaderse, seni sevmek mucize.",
+      "Her şeyinle tamamlanıyorum.",
+      "Senin gülüşün, karanlığımı aydınlatıyor.",
+      "Kalbim sadece seninle huzurlu.",
+      "Senin sesinle kalbim ritim buluyor.",
+      "Sende bulduğum sevgiyi tarif edemem.",
+      "Seninle her an sonsuzluğa dokunuyorum.",
+      "Gözlerinin ışığıyla yolumu buluyorum.",
+      "Her şey sensin, gerisi teferruat.",
+      "Seninle konuşmak, kalbime şiir gibi dokunmak.",
+      "Seni düşündükçe içim huzurla doluyor.",
+      "Aşk sensin, ben sadece seni bulmaya çalışan bir kalbim.",
+      "Gözlerinde kaybolmak, bulduğum en güzel kayboluş.",
+      "Seninle her şey tamamlanıyor.",
+      "Kalbim sadece seninle anlam kazanıyor.",
+      "Seninle olmak, tüm dünyaya bedel.",
+      "Her adımım seni bulmak için atılmış sanki.",
+      "Senin sevgin, kalbimi yeniden doğurdu.",
+      "Gülüşün, karanlık bir dünyada tek ışığım.",
+      "Senin varlığın, en büyük huzurum.",
+      "Her gece seni düşünmeden uyuyamıyorum.",
+      "Senin adın, kalbimin en güzel duası.",
+      "Seninle tanışmak, hayatta aldığım en güzel armağan.",
+      "Kalbim seninle tamam, sensiz yarım.",
+      "Senin gözlerin, cennetin penceresi gibi.",
+      "Gülüşünle ısınır, sesinle sakinleşirim.",
+      "Kalbim seni düşündükçe daha da güzelleşiyor.",
+      "Her şeyin sensiz bir anlamı yok.",
+      "Seninle geçen her an, kalbimde ölümsüz.",
+      "Gözlerinde sevdanın binbir tonu var.",
+      "Senin adın bile kalbimi yumuşatıyor.",
+      "Seni sevmek, hayata tutunmanın en güzel hali.",
+      "Kalbim seni görünce hızla çarpıyor, her seferinde ilk defa gibi.",
+      "Gülüşün, içimdeki tüm sessizliği dağıtıyor.",
+      "Seninle konuşmak bile huzurun tanımı.",
+      "Kalbim senin adınla ritim buluyor.",
+      "Gözlerinle her şey güzelleşiyor.",
+      "Seninle olmak, hayatın anlamını yeniden keşfetmek gibi.",
+      // 232–331 (100 cümle)
+      "Senin varlığın, hayatın bana verdiği en güzel hediye.",
+      "Kalbimdeki en sessiz dua hep seninle başlıyor.",
+      "Seni sevmek, huzurun tarifini bilmek gibi.",
+      "Gülüşün, bütün sıkıntılarımı unutturuyor.",
+      "Hayatın en güzel yanı, seni sevebilmek.",
+      "Seninle tanıştığım gün, kaderime teşekkür ettim.",
+      "Her sabah seninle başlasın istiyorum, her gece seninle bitsin.",
+      "Senin gözlerinde kaybolmak bile huzur veriyor.",
+      "Aşkın, kalbimde yankılanan en güzel melodi.",
+      "Seni düşündüğümde, kalbim gülümser.",
+      "Seninle konuşmak, yorgun bir günün en güzel ilacı.",
+      "Gözlerinle başlar umut, sesinle büyür sevda.",
+      "Kalbim sadece senin adını biliyor.",
+      "Seninle tanıştığım an, dünyam renklendi.",
+      "Her şey geçer ama senin sevginden asla vazgeçmem.",
+      "Senin yanında zaman bile kıskanılacak kadar güzel akıyor.",
+      "Gözlerinin içine baktığımda tüm dünya susuyor.",
+      "Her şeyinle tamam, her hâlinle güzel bir insansın.",
+      "Kalbim seninle attığında huzur buluyor.",
+      "Hayatımın anlamı sensin, geri kalan her şey sadece detay.",
+      "Seni düşünmek bile kalbimi ısıtıyor.",
+      "Gözlerinde bir an kalmak, ömür boyu huzur gibi.",
+      "Her nefesimde sen varsın.",
+      "Aşkın, kalbimde bir dua gibi yankılanıyor.",
+      "Seninle yaşamak, her gün yeniden doğmak gibi.",
+      "Kalbim seni görünce anlam buluyor.",
+      "Gülüşün, yorgun kalbime bahar getiriyor.",
+      "Her şey değişse bile, sana olan sevgim değişmez.",
+      "Senin adın, kalbimin en güzel melodisi.",
+      "Hayat seninle güzel, sensiz eksik.",
+      "Her sabah seninle başlasın istiyorum.",
+      "Kalbimin her atışı, seni bir kez daha çağırıyor.",
+      "Gözlerin, karanlık gecemin tek yıldızı.",
+      "Aşkınla dolu bir kalp, en büyük zenginlik.",
+      "Senin sesin, içimdeki fırtınaları dindiriyor.",
+      "Kalbim seni düşünmeden bir an bile durmak istemiyor.",
+      "Senin varlığın, tüm korkularımı susturuyor.",
+      "Gözlerinin içine baktığımda, her şey anlamını buluyor.",
+      "Seni sevmenin bin yolu varsa, ben hepsinden geçmek isterim.",
+      "Kalbim seni tanıdığından beri başka kimseye yer kalmadı.",
+      "Gülüşünle aydınlanıyor karanlığım.",
+      "Aşkın, hayatımın en güzel tesadüfü.",
+      "Her sabah seni düşünmek, güne başlamanın en güzel yolu.",
+      "Senin sevgini taşımak, bana huzur veriyor.",
+      "Kalbim seninle tamamlandı.",
+      "Gözlerinde kaybolmak, en güzel kayboluştur.",
+      "Her şey sensin, gerisi sessizlik.",
+      "Senin varlığınla hayat daha anlamlı.",
+      "Kalbim seni düşündükçe hızlanıyor.",
+      "Her şey değişebilir ama senin yerin hep aynı kalır.",
+      "Gözlerinle bakınca dünyayı sevebiliyorum.",
+      "Kalbim seni tanıdığından beri huzur buldu.",
+      "Seninle konuşmak bile günümün en güzel anı.",
+      "Aşkınla yandım ama bu yangın huzur veriyor.",
+      "Senin gülüşünle başlıyor mutluluk.",
+      "Her bakışın bir hikâye, her gülüşün bir mucize.",
+      "Kalbim, senin adını sevgiyle taşıyor.",
+      "Senin varlığın, tüm eksiklerimi tamamlıyor.",
+      "Gözlerinde kaybolmak istiyorum sonsuza dek.",
+      "Her şey sensiz yarım, seninle tam.",
+      "Kalbim seni düşündüğünde sükûnete eriyor.",
+      "Gülüşün, en sert kalpleri bile yumuşatır.",
+      "Seninle yaşlanmak, en güzel dileğim.",
+      "Gözlerin, bana huzurun tarifini öğretiyor.",
+      "Kalbim sadece senin adını biliyor.",
+      "Seninle geçirdiğim her saniye, kalbime kazınıyor.",
+      "Gülüşün, içimdeki umudu yeşertiyor.",
+      "Aşkın, kalbimin en güzel duası.",
+      "Seninle tanışmak, kaderin bana armağanıydı.",
+      "Kalbim seninle aynı ritimde atıyor.",
+      "Her şeyde seni görmek, bana huzur veriyor.",
+      "Gözlerinde kaybolmak, bulduğum en güzel cennet.",
+      "Her sabah seninle başlasın istiyorum, her gece seninle bitsin.",
+      "Kalbim seni görünce daha güçlü atıyor.",
+      "Seninle konuşmak bile bir mucize gibi.",
+      "Aşkın, hayatıma anlam kattı.",
+      "Gözlerinle gül, kalbimle ben seni seveyim.",
+      "Her şey geçer ama senin sevginden vazgeçmem.",
+      "Kalbim seninle dolu, taşarsa adı mutluluk olur.",
+      "Gülüşün, en güzel ilham kaynağım.",
+      "Seninle konuşmak, yorgunluğumu silip götürüyor.",
+      "Kalbim seni görünce huzur buluyor.",
+      "Her şey sensin, başka hiçbir şeyin önemi yok.",
+      "Gözlerin, en güzel hikâyenin başlığı gibi.",
+      "Kalbim senin adını her gün yeniden fısıldıyor.",
+      "Seninle yaşamak, bir masalı gerçeğe dönüştürmek gibi.",
+      "Aşkın, kalbimin en güzel sığınağı.",
+      "Her nefesimde seni hissediyorum.",
+      "Gözlerinde bulduğum huzuru başka yerde arayamam.",
+      "Kalbim seni tanıdığından beri yeniden doğdu.",
+      "Her sabah seninle uyanmak, en güzel rüyanın devamı gibi.",
+      "Gülüşünle başlar her mutluluğum.",
+      "Seninle konuşmak, kalbimi dinlendiren bir melodi gibi.",
+      "Gözlerinle dünyayı sevmeyi öğrendim.",
+      "Kalbim seninle birlikte atıyor, aynı ritimde.",
+      "Her şey sensiz anlamsızlaşıyor.",
+      "Seninle her an bir mucize gibi geçiyor.",
+      "Gülüşün, kalbimin en güzel alışkanlığı.",
+      "Kalbim seni düşündükçe ısınıyor.",
+      "Seninle tanıştığım için her gün şükrediyorum.",
+      // 332–365 (Final)
+      "Bugün senin doğum günün ama benim için her gün seninle doğum günü gibi.",
+      "Seni tanıdığım gün, kalbim ilk kez gerçekten yaşadığını hissetti.",
+      "Gözlerinde kaybolmak, en güzel kayboluşum.",
+      "Her şey biter ama sana olan sevgim sonsuz kalır.",
+      "Varlığın bile kalbimi güzelleştirmeye yetiyor.",
+      "Seninle geçen her an, bana hayatı sevmeyi öğretti.",
+      "Kalbim seni sevmekten hiç yorulmadı, yorulmayacak da.",
+      "Her sabah seni düşünmek, en güzel alışkanlığım oldu.",
+      "Seni tanımak, kaderimin en güzel tesadüfü.",
+      "Her bakışında yeniden âşık oluyorum.",
+      "Seninle bir ömür geçirme fikri bile huzur veriyor.",
+      "Gözlerinle gül, kalbimle ben seni seveyim.",
+      "Her şeyin ötesinde, senin kalbinde bir yerim olduğunu bilmek yeter.",
+      "Kalbimin en güvenli yeri senin yanın.",
+      "Seninle geçen zaman, hayatımın en değerli hazinesi.",
+      "Aşkın, kalbimin en güzel duası oldu.",
+      "Seninle tanıştığım gün, hayat ikiye ayrıldı: önce ve sen.",
+      "Gözlerin, tüm sessizliklerin cevabı gibi.",
+      "Senin varlığın, en karanlık günümde bile ışık oluyor.",
+      "Her sabah adını duymak, kalbimi yeniden uyandırıyor.",
+      "Gülüşün, yorgun bir kalbe bahar getiriyor.",
+      "Seninle yaşlanmak, tek dileğim.",
+      "Her şeyin sensiz eksik, seninle tamam.",
+      "Gözlerin, kalbime yazılmış en güzel şiir.",
+      "Seninle konuşmak, kalbime huzurun sesini dinletmek gibi.",
+      "Varlığın, hayatımın en güzel anlamı.",
+      "Her nefesimde sen varsın, her kalp atışımda adın yankılanıyor.",
+      "Senin sevgini taşımak, hayatta aldığım en büyük onur.",
+      "Gözlerinde bulduğum sıcaklık, hiçbir yerde yok.",
+      "Seninle geçirdiğim her saniye, kalbimin en güzel hatırası.",
+      "Hayat kısa ama seninle geçen her an sonsuzluk gibi.",
+      "Eğer yeniden doğsam, yine seni bulmak isterdim.",
+      "İyi ki doğdun Nur Sena, çünkü sen doğmasaydın ben yarım kalırdım.",
+      "Seni bir ömür değil, bir sonsuzluk seveceğim."
+    ];
+
+    // ********** Yardımcılar **********
+    const $ = s => document.querySelector(s);
+    const byId = id => document.getElementById(id);
+
+    function randomIndex() { return Math.floor(Math.random() * notes.length); }
+
+    function todayKey(){
+      const d = new Date();
+      return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+    }
+
+    function pickNote(force=false){
+      const key = "nsgb_today"; // today cache
+      const saved = JSON.parse(localStorage.getItem(key) || '{}');
+      const k = todayKey();
+      if(!force && (byId('dailyLimit')?.checked || byId('dailyLimit2')?.checked)){
+        if(saved.date === k && typeof saved.idx === 'number') return saved.idx;
+      }
+      let idx = randomIndex();
+      // hafif tekrar kaçınma
+      const lastIdx = parseInt(localStorage.getItem('nsgb_lastIdx')||'-1',10);
+      if(notes.length>1 && idx===lastIdx) idx = (idx+1)%notes.length;
+      localStorage.setItem('nsgb_lastIdx', idx);
+      localStorage.setItem(key, JSON.stringify({date:k, idx}));
+      return idx;
+    }
+
+    function setNote(el, idx){
+      el.textContent = notes[idx];
+    }
+
+    function confettiHearts(){
+      const h = byId('hearts');
+      for(let i=0;i<10;i++){
+        const span = document.createElement('span');
+        span.className='heart'; span.textContent='❤';
+        span.style.left = Math.random()*100+'%';
+        span.style.bottom = '-20px';
+        span.style.animationDuration = (7+Math.random()*5)+'s';
+        span.style.fontSize = (14+Math.random()*18)+'px';
+        h.appendChild(span);
+        setTimeout(()=> span.remove(), 12000);
+      }
+    }
+
+    // Kapı
+    const bgm = byId('bgm');
+    function safePlay(btn){
+      bgm.play().then(()=>{
+        if(btn) btn.textContent='Müziği Kapat';
+      }).catch(()=>{/* sessiz modda bekler */});
+    }
+
+    byId('enterBtn').addEventListener('click', ()=>{
+      byId('gate').classList.remove('active');
+      byId('panelWeb').classList.add('active');
+      confettiHearts();
+      // iPhone için ilk dokunuşta başlat
+      safePlay(byId('audioToggle'));
+    });
+    byId('howBtn').addEventListener('click', ()=>{
+      const box = byId('how');
+      box.style.display = box.style.display==='none' ? 'block' : 'none';
+    });
+
+    // Web panel
+    byId('drawBtn').addEventListener('click', ()=>{
+      const idx = pickNote(false);
+      setNote(byId('noteBox'), idx);
+      byId('metaInfo').textContent = `Not #${idx+1} • bugün için seçildi`;
+      confettiHearts();
+    });
+
+    byId('saveBtn').addEventListener('click', ()=>{
+      const txt = byId('noteBox').textContent.trim();
+      if(!txt) return alert('Önce bir not açmalısın.');
+      const list = JSON.parse(localStorage.getItem('nsgb_saved')||'[]');
+      list.unshift({t:Date.now(), note:txt});
+      localStorage.setItem('nsgb_saved', JSON.stringify(list));
+      alert('Not kaydedildi. 💖');
+    });
+
+    byId('resetToday').addEventListener('click', (e)=>{
+      e.preventDefault();
+      localStorage.removeItem('nsgb_today');
+      byId('metaInfo').textContent = '—';
+      alert('Bugün yeniden çekebilirsin.');
+    });
+
+    // Mini panel
+    byId('jar').addEventListener('click', ()=>{
+      const idx = pickNote(false);
+      setNote(byId('paper'), idx);
+      byId('metaInfo2').textContent = `Not #${idx+1} • bugün için seçildi`;
+      confettiHearts();
+    });
+
+    byId('saveBtn2').addEventListener('click', ()=>{
+      const txt = byId('paper').textContent.trim();
+      if(!txt) return alert('Önce bir not açmalısın.');
+      const list = JSON.parse(localStorage.getItem('nsgb_saved')||'[]');
+      list.unshift({t:Date.now(), note:txt});
+      localStorage.setItem('nsgb_saved', JSON.stringify(list));
+      alert('Not kaydedildi. 💖');
+    });
+
+    byId('resetToday2').addEventListener('click', (e)=>{
+      e.preventDefault();
+      localStorage.removeItem('nsgb_today');
+      byId('metaInfo2').textContent = '—';
+      alert('Bugün yeniden çekebilirsin.');
+    });
+
+    // Mod değişimi
+    const switchBoth = (checked) => {
+      if(checked){
+        byId('panelWeb').classList.remove('active');
+        byId('panelMini').classList.add('active');
+      } else {
+        byId('panelMini').classList.remove('active');
+        byId('panelWeb').classList.add('active');
+      }
+    }
+    byId('modeSwitch').addEventListener('change', e=> switchBoth(e.target.checked));
+    byId('modeSwitch2').addEventListener('change', e=> switchBoth(e.target.checked));
+    byId('switchToWeb').addEventListener('click', e=>{ e.preventDefault(); byId('modeSwitch2').checked=false; switchBoth(false); });
+
+    // Günlük limit senkronizasyonu
+    byId('dailyLimit').addEventListener('change', e=> byId('dailyLimit2').checked = e.target.checked);
+    byId('dailyLimit2').addEventListener('change', e=> byId('dailyLimit').checked = e.target.checked);
+
+    // Müzik kontrolü
+    function toggleAudio(btn){
+      if(bgm.paused){ safePlay(btn); }
+      else { bgm.pause(); if(btn) btn.textContent='Müziği Aç'; }
+    }
+    byId('audioToggle').addEventListener('click', e=> toggleAudio(e.target));
+    byId('audioToggle2').addEventListener('click', e=> toggleAudio(e.target));
+
+  </script>
+</body>
+</html>
